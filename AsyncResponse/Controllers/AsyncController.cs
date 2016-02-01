@@ -60,7 +60,7 @@ namespace AsyncResponse.Controllers
             if(runningTasks.ContainsKey(id) && runningTasks[id])
             {
                 runningTasks.Remove(id);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, "Some data could be returned here");
             }
             else if(runningTasks.ContainsKey(id))
             {
