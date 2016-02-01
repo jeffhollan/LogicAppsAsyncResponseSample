@@ -76,7 +76,7 @@ namespace AsyncResponse.Controllers
             }
             else
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new Exception("No job exists with the specified id"));
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No job exists with the specified ID");
             }
         }
     }
