@@ -43,7 +43,7 @@ namespace AsyncResponse.Controllers
         private void doWork(Guid id)
         {
             Debug.WriteLine("Starting work");
-            Task.Delay(30000).Wait(); //Do work *will work for 30 seconds)
+            Task.Delay(30000).Wait(); //Do work will work for 30 seconds)
             Debug.WriteLine("Work completed");
             runningTasks[id] = true;  //Set the flag to true - work done
         }
@@ -55,13 +55,18 @@ namespace AsyncResponse.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/status/{id}")]
+        [Swashbuckle.Swagger.Annotations.SwaggerResponse(HttpStatusCode.BadRequest, "No job exists with the specified id")]
+        [Swashbuckle.Swagger.Annotations.SwaggerResponse(HttpStatusCode.Accepted, "The job is still running")]
+        [Swashbuckle.Swagger.Annotations.SwaggerResponse(HttpStatusCode.OK, "The job has completed")]
         public HttpResponseMessage checkStatus([FromUri] Guid id)
         {
+            //If the job is complete
             if(runningTasks.ContainsKey(id) && runningTasks[id])
             {
                 runningTasks.Remove(id);
                 return Request.CreateResponse(HttpStatusCode.OK, "Some data could be returned here");
             }
+            //If the job is still running
             else if(runningTasks.ContainsKey(id))
             {
                 HttpResponseMessage responseMessage = Request.CreateResponse(HttpStatusCode.Accepted);
