@@ -30,7 +30,7 @@ namespace AsyncResponse.Controllers
             runningTasks[id] = false;  //Job isn't done yet
             new Thread(() => doWork(id)).Start();   //Start the thread of work, but continue on before it completes
             HttpResponseMessage responseMessage = Request.CreateResponse(HttpStatusCode.Accepted);   
-            responseMessage.Headers.Add("location", String.Format("/api/status/{0}", id));  //Where the engine will poll to check status
+            responseMessage.Headers.Add("location", String.Format("{0}://{1}/api/status/{2}", Request.RequestUri.Scheme, Request.RequestUri.Host, id));  //Where the engine will poll to check status
             responseMessage.Headers.Add("retry-after", "20");   //How many seconds it should wait (20 is default if not included)
             return responseMessage;
         }
@@ -65,7 +65,7 @@ namespace AsyncResponse.Controllers
             else if(runningTasks.ContainsKey(id))
             {
                 HttpResponseMessage responseMessage = Request.CreateResponse(HttpStatusCode.Accepted);
-                responseMessage.Headers.Add("location", String.Format("/api/status/{0}", id));
+                responseMessage.Headers.Add("location", String.Format("{0}://{1}/api/status/{2}", Request.RequestUri.Scheme, Request.RequestUri.Host, id));  //Where the engine will poll to check status
                 responseMessage.Headers.Add("retry-after", "20");
                 return responseMessage;
             }
