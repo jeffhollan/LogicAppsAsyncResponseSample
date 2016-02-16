@@ -43,7 +43,7 @@ namespace AsyncResponse.Controllers
         private void doWork(Guid id)
         {
             Debug.WriteLine("Starting work");
-            Task.Delay(30000).Wait(); //Do work will work for 30 seconds)
+            Task.Delay(120000).Wait(); //Do work will work for 120 seconds)
             Debug.WriteLine("Work completed");
             runningTasks[id] = true;  //Set the flag to true - work done
         }
